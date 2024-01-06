@@ -1,0 +1,23 @@
+{
+  "name": "snapcart-mern",
+  "version": "1.0.0",
+  "description": "ecommerce project in mern stack",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abir-Al-Arafat/SnapCart-MERN.git"
+  },
+  "author": "abir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abir-Al-Arafat/SnapCart-MERN/issues"
+  },
+  "homepage": "https://github.com/Abir-Al-Arafat/SnapCart-MERN#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
