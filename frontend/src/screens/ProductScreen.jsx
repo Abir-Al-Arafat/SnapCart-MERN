@@ -1,21 +1,30 @@
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
-import products from "../products";
 
 const ProductScreen = () => {
+  const [product, setProduct] = useState([]);
   const { id: productId } = useParams();
-  console.log(products);
+  // console.log(products);
   console.log("productId", productId);
-  const product = products.find((product) => product._id === productId);
+  const fetchProduct = async () => {
+    const { data } = await axios.get(`/api/products/${productId}`);
+    console.log("data", data);
+    setProduct(data);
+  };
+  useEffect(() => {
+    fetchProduct();
+  }, [productId]);
+  // const product = products.find((product) => product._id === productId);
   console.log("product", product);
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
         Go Back
       </Link>
-      <p>{JSON.stringify(product)}</p>
+      {/* <p>{JSON.stringify(product)}</p> */}
       <Row>
         <Col md={5}>
           <Image src={product.image} alt={product.name} fluid />
@@ -35,7 +44,7 @@ const ProductScreen = () => {
               {" "}
               <strong>Description: </strong> {product.description}
             </ListGroup.Item>
-            {/* <ListGroup.Item>Price: ${product.price}</ListGroup.Item> */}
+            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={3}>
