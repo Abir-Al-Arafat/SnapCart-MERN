@@ -8,3 +8,7 @@ ExpressJS
 ReactJS
 NodeJS
 Bootstrap
+
+Data Seeder:
+To import data, run: npm run data:import
+To remove data, run: npm run data:destroy
