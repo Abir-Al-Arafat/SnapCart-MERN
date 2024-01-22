@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { UseDispatch, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 // import axios from "axios";
 // import { useEffect, useState } from "react";
 import {
