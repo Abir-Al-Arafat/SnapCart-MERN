@@ -12,13 +12,11 @@ import {
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, removeFromCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  //   const [qty, setQty] = useState();
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -26,6 +24,16 @@ const CartScreen = () => {
   const changeQuantityHandler = (qty, product) => {
     dispatch(addToCart({ ...product, qty }));
   };
+
+  const removeFromCartHandler = (productId) => {
+    dispatch(removeFromCart(productId));
+  };
+
+  const checkoutHandler = () => {
+    console.log("checkout");
+    navigate("/login?redirect=/shipping");
+  };
+
   console.log(cartItems);
 
   return (
@@ -68,8 +76,9 @@ const CartScreen = () => {
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => {
-                        console.log("delete");
+                      onClick={(e) => {
+                        // console.log("delete");
+                        removeFromCartHandler(item._id);
                       }}
                       style={{
                         backgroundColor: "red",
@@ -103,6 +112,7 @@ const CartScreen = () => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
               >
                 Proceed to checkout
               </Button>
