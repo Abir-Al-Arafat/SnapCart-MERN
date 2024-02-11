@@ -19,6 +19,8 @@ const CartScreen = () => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log("userInfo", userInfo?.name);
   const { cartItems } = cart;
 
   const changeQuantityHandler = (qty, product) => {
@@ -30,11 +32,11 @@ const CartScreen = () => {
   };
 
   const checkoutHandler = () => {
-    console.log("checkout");
+    // console.log("checkout");
     navigate("/login?redirect=/shipping");
   };
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   return (
     <Row>
