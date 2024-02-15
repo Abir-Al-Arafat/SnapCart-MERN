@@ -46,7 +46,7 @@ const Header = () => {
                 <Nav.Link>
                   <FaShoppingCart />
                   Cart
-                  {cartItems?.totalProducts && (
+                  {cartItems?.totalProducts > 0 && (
                     <Badge
                       style={{
                         marginLeft: "5px",

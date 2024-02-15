@@ -13,6 +13,7 @@ import {
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
+import { toast } from "react-toastify";
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const CartScreen = () => {
 
   const removeFromCartHandler = (productId) => {
     dispatch(removeFromCart(productId));
+    toast.success("removed from cart");
   };
 
   const checkoutHandler = () => {
