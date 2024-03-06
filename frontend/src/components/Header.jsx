@@ -30,6 +30,7 @@ const Header = () => {
   };
 
   console.log("cartItems", cartItems.totalProducts);
+  console.log(userInfo);
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
@@ -75,6 +76,19 @@ const Header = () => {
                     LogIn
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo && userInfo?.userInfo?.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <LinkContainer to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
