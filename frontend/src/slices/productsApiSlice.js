@@ -28,7 +28,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
               method: 'DELETE',
             }),
             providesTags: ['Product'],
-          }),
+        }),
     })
 })        
 
