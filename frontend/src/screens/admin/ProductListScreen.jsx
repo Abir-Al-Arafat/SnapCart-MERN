@@ -21,6 +21,7 @@ const ProductListScreen = () => {
       try {
         await deleteProduct(id);
         refetch();
+        toast.success("Product Deleted");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
@@ -35,6 +36,7 @@ const ProductListScreen = () => {
       try {
         await createProduct();
         refetch();
+        toast.success("New Product Created");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
@@ -48,8 +50,13 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="my-3" onClick={createProductHandler}>
-            <FaPlus /> Create Product
+          <Button
+            className="my-3"
+            onClick={createProductHandler}
+            disabled={loadingCreate}
+          >
+            <FaPlus />{" "}
+            {loadingCreate ? `Creating Product...` : `Create Product`}
           </Button>
         </Col>
       </Row>
