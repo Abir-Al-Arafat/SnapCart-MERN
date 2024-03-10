@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
-  //   useUploadProductImageMutation,
+  useUploadProductImageMutation,
 } from "../../slices/productsApiSlice";
 
 const ProductEditScreen = () => {
@@ -32,8 +32,8 @@ const ProductEditScreen = () => {
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
 
-  //   const [uploadProductImage, { isLoading: loadingUpload }] =
-  //     useUploadProductImageMutation();
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
 
   const navigate = useNavigate();
 
@@ -72,11 +72,18 @@ const ProductEditScreen = () => {
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
+    console.log("formData befor append", formData);
+    console.log("type of formData befor append", typeof formData);
     formData.append("image", e.target.files[0]);
+    console.log("formData after append", formData);
+    console.log("formData after appending image", formData["image"]);
+    // console.log("type of formData after append", typeof formData);
+    console.log(typeof e.target.files[0]);
     try {
-      //   const res = await uploadProductImage(formData).unwrap();
-      //   toast.success(res.message);
-      //   setImage(res.image);
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+      console.log("image", image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
