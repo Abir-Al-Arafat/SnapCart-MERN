@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Message from "../components/Message";
+import Meta from "../components/Meta";
 // import axios from "axios";
 // import { useEffect, useState } from "react";
 import {
@@ -81,9 +82,15 @@ const ProductScreen = () => {
   };
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      {/* <Link className="btn btn-light my-3" to="/">
         Go Back
+      </Link> */}
+      <Link to="/">
+        <Button variant="outline-primary" className="mb-4">
+          Go Back
+        </Button>
       </Link>
+
       {/* <p>{JSON.stringify(product)}</p> */}
       {isLoading ? (
         <Loader />
@@ -91,6 +98,7 @@ const ProductScreen = () => {
         <h1>{error?.data?.message || error.error}</h1>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
               <Image src={product.image} alt={product.name} fluid />

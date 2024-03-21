@@ -7,33 +7,30 @@ import { useGetProductsQuery } from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
   const { data, isLoading, error } = useGetProductsQuery({
     keyword,
     pageNumber,
   });
-  // const [products, setProducts] = useState([]);
 
-  // const fetchProducts = async () => {
-  //   const { data } = await axios.get("/api/products");
-  //   setProducts(data);
-  // };
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
   return (
     <>
-      {keyword && (
-        <Link to="/" className="btn btn-light mb-4">
-          Back to Homepage
+      {keyword ? (
+        <Link to="/">
+          {/* <Button className="btn btn-dark mb-4" variant="outline-primary">Back to Homepage</Button> */}
+          <Button variant="outline-primary" className="mb-4">
+            Back to Homepage
+          </Button>
         </Link>
+      ) : (
+        <ProductCarousel />
       )}
       {isLoading ? (
         <Loader />
       ) : error ? (
-        // <h1>  {error?.data?.message || error.error}</h1>
         <Message variant={"danger"}>
           {" "}
           {error?.data?.message || error.error}
@@ -41,6 +38,7 @@ const HomeScreen = () => {
       ) : (
         <>
           <h1>Latest Products</h1>
+          <Meta title={`Welcome`} />
           <Row>
             {data.products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
