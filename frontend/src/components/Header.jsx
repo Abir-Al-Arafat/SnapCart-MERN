@@ -25,7 +25,7 @@ const Header = () => {
       dispatch(logout());
       dispatch(resetCart());
       navigate("/login");
-      console.log("userInfo", userInfo);
+      // console.log("userInfo", userInfo);
     } catch (error) {
       console.log(error);
     }
