@@ -12,3 +12,5 @@ Bootstrap
 Data Seeder:
 To import data, run: npm run data:import
 To remove data, run: npm run data:destroy
+
+Deployed At: https://snapcart.onrender.com/
