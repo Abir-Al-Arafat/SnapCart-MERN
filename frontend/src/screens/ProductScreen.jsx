@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Message from "../components/Message";
 import Meta from "../components/Meta";
+import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 // import axios from "axios";
 // import { useEffect, useState } from "react";
 import {
@@ -20,6 +21,7 @@ import Loader from "../components/Loader";
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
+  useDeleteReviewMutation,
 } from "../slices/productsApiSlice";
 import { addToCart } from "../slices/cartSlice";
 
@@ -43,12 +45,46 @@ const ProductScreen = () => {
     { isLoading: loadingProductReview, error: reviewError },
   ] = useCreateReviewMutation();
 
+  const [
+    deleteReview,
+    { isLoading: loadingDeleteReview, error: reviewDeleteError },
+  ] = useDeleteReviewMutation();
+
   const { userInfo } = useSelector((state) => state.auth);
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     toast.success("added to cart");
     navigate("/cart");
+  };
+
+  // !isLoading &&
+  //   product.reviews.forEach((review, idx) => {
+  //     console.log("review", review);
+  //     console.log("review", review.user);
+  //     console.log("userInfo", userInfo._id);
+  //     console.log("Logged in user", review.user == userInfo._id);
+  //   });
+  const handleEditReview = () => {
+    console.log("edit rev clicked");
+  };
+  const handleDeleteReview = async (e) => {
+    e.preventDefault();
+    if (window.confirm("You sure bro?")) {
+      console.log("delete rev clicked");
+      console.log("product id", productId);
+      try {
+        await deleteReview(productId).unwrap();
+        refetch();
+        toast.success("Review Removed successfully");
+        // setRating(0);
+        // setComment("");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    } else {
+      console.log("cancelled");
+    }
   };
 
   // console.log(products);
@@ -62,7 +98,7 @@ const ProductScreen = () => {
   //   fetchProduct();
   // }, [productId]);
   // const product = products.find((product) => product._id === productId);
-  console.log("product", product);
+  // console.log("product", product);
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -197,17 +233,38 @@ const ProductScreen = () => {
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant="flush">
                 {product.reviews.map((review) => (
-                  <ListGroup.Item key={review._id}>
-                    <strong>{review.name}</strong>
+                  <ListGroup.Item key={review?._id}>
+                    <Row>
+                      <Col md={4}>
+                        <strong>{review.name}</strong>
+                        <Rating value={review.rating} />
+                        <p>{review.createdAt.substring(0, 10)}</p>
+                      </Col>
+                      <Col md={6}>
+                        <p>{review.comment}</p>
+                      </Col>
+                      <Col md={2}>
+                        {review.user == userInfo?._id && (
+                          <>
+                            <FaEdit onClick={handleEditReview} />{" "}
+                            <FaTimes
+                              disabled={loadingDeleteReview}
+                              onClick={handleDeleteReview}
+                            />
+                          </>
+                        )}
+                      </Col>
+                    </Row>
+                    {/* <strong>{review.name}</strong>
                     <Rating value={review.rating} />
-                    <p>{review.createdAt.substring(0, 10)}</p>
-                    <p>{review.comment}</p>
+                    <p>{review.createdAt.substring(0, 10)}</p> */}
+                    {/* <p>{review.comment}</p> */}
                   </ListGroup.Item>
                 ))}
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
 
-                  {loadingProductReview && <Loader />}
+                  {/* {loadingProductReview && <Loader />} */}
 
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
@@ -242,7 +299,7 @@ const ProductScreen = () => {
                         type="submit"
                         variant="primary"
                       >
-                        Submit
+                        {loadingProductReview ? "Submitting" : "Submit"}
                       </Button>
                     </Form>
                   ) : (

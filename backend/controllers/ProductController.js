@@ -139,6 +139,41 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Delete review
+// @route   DELETE /api/products/:id/reviews
+// @access  Private
+const deleteProductReview = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    const reviewIndex = product.reviews.findIndex(
+      (review) => review.user.toString() === req.user._id.toString()
+    );
+
+    if (reviewIndex === -1) {
+      res.status(404);
+      throw new Error('Review not found');
+    }
+
+    product.reviews.splice(reviewIndex, 1); // Remove the review from the array
+
+    product.numReviews = product.reviews.length;
+
+    if (product.numReviews === 0) {
+      product.rating = 0; // If there are no reviews, set the rating to 0
+    } else {
+      // Recalculate the average rating
+      product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+    }
+
+    await product.save();
+    res.json({ message: 'Review deleted' });
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+});
+
 // @desc    Get top rated products
 // @route   GET /api/products/top-products
 // @access  Public
@@ -151,4 +186,4 @@ const getTopProducts = asyncHandler(async (req, res) => {
   throw new Error('Resource not found');
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, getTopProducts };
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, deleteProductReview,getTopProducts };
